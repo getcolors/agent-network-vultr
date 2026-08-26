@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Desired state for a minimal NetBird Agent Network demo on Vultr: a keyless, policy-gated LLM endpoint and a network-isolated agent running headless Claude Code, on one guarded instance.">
+  <title>agent-network-vultr — getcolors deployment</title>
+  <style>
+    :root{color-scheme:light;--ink:#1f2328;--muted:#59636e;--line:#d0d7de;--soft:#f6f8fa;--blue:#0969da;--green:#1a7f37}*{box-sizing:border-box}body{margin:0;color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:920px;margin:auto;padding:64px 28px 100px}h1{font-size:48px;line-height:1.05;margin:0}h2{margin-top:54px;padding-bottom:8px;border-bottom:1px solid var(--line)}.lead{font-size:20px;color:var(--muted);max-width:790px}code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}pre{padding:18px;overflow:auto;border:1px solid var(--line);border-radius:8px;background:var(--soft)}:not(pre)>code{padding:.12em .35em;border-radius:5px;background:var(--soft)}a{color:var(--blue)}.eyebrow{color:var(--green);font-weight:700;letter-spacing:.08em}.callout{padding:16px 18px;border-left:4px solid var(--green);background:#dafbe1}.warn{padding:16px 18px;border-left:4px solid #bf8700;background:#fff8c5}@media(max-width:650px){main{padding-top:38px}h1{font-size:36px}}
+  </style>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4VKP1WY4QJ"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-4VKP1WY4QJ',{page_title:'agent-network-vultr — getcolors deployment'});</script>
+<script src="https://rybbit.getcolors.ai/api/script.js" data-site-id="9fb9c41a6d49" defer></script>
+</head>
+<body><main>
+  <p class="eyebrow">DEPLOYMENT · VULTR · AGENT NETWORK · KEYLESS LLM ACCESS</p>
+  <h1>agent-network-vultr</h1>
+  <p class="lead">Desired state for one minimal NetBird Agent Network demo: Traefik, the combined <code>netbird-server</code>, the dashboard in agent-network view, the private reverse proxy — and an isolated agent whose only path to an LLM is the keyless endpoint over its WireGuard tunnel.</p>
+
+  <div class="callout"><strong>The isolation is the demo.</strong> The agent container holds no API key and has no internet route — an internal Docker network doubled by DOCKER-USER firewall rules. Its requests reach <code>&lt;label&gt;.agent-network.bigconfig.online</code> over the tunnel, carry its peer identity, pass a policy with a model allowlist and per-day budget caps, and land attributed in the access log. The Anthropic key lives server-side in NetBird's encrypted store.</div>
+
+  <h2>Endpoints</h2>
+  <pre><code>https://agent-network.bigconfig.online          dashboard, API, gRPC, relay, embedded IdP
+https://&lt;label&gt;.agent-network.bigconfig.online  the keyless endpoint — tunnel-only
+agent-network-agent                             the isolated agent container</code></pre>
+
+  <h2>Use</h2>
+  <pre><code>direnv allow               # once, after cloning
+./green build              # render .colors/agent-network-vultr/
+./green create --dry-run   # walk the workflow, no side effects
+./green create             # converge</code></pre>
+
+  <div class="warn"><strong>Fake-key mode.</strong> This deployment runs with a deliberately fake Anthropic key: acceptance expects Anthropic's own <code>401</code> relayed through the proxy, proving isolation, tunnel, policy and key injection with nothing billable. A real key in <code>.envrc.private</code> and a re-converge upgrade the demo to real completions.</div>
+
+  <h2>Provenance</h2>
+  <p>Built by the <a href="https://github.com/getcolors/agent-network">agent-network</a> Package Skill, installed with <code>npx skills add</code> and pinned in <code>skills-lock.json</code>. Disposable by design: no backups; recovery is a guarded <code>delete</code> plus <code>create</code>, which mints a fresh endpoint hostname.</p>
+
+  <p><a href="https://github.com/getcolors/agent-network-vultr">Source on GitHub</a></p>
+</main></body>
+</html>
