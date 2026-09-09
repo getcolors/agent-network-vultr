@@ -23,3 +23,5 @@ temporary directories with a sanitized environment and published dependencies.
 Generated library backend documents had compute state keys and no credentials.
 This proves offline rendering, not live credentials, migrated ownership, or
 application health.
+
+Published lifecycle update: remote Ansible skips validated retired compute even when caller input retains a stale IP or private-key path. Other cleanup keeps its existing ordering. Desired state is unchanged.
